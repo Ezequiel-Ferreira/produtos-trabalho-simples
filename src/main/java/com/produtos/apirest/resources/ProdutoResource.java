@@ -50,9 +50,9 @@ public class ProdutoResource {
 	}
 	
 	@ApiOperation(value="Deleta um produto")
-	@DeleteMapping("/produto")
-	public void deletaProduto(@RequestBody @Valid Produto produto) {
-		produtoRepository.delete(produto);
+	@DeleteMapping("/produto/{id}")
+	public void deletaProduto(@PathVariable("id") Long id) {
+		produtoRepository.findById(id).ifPresent(p -> produtoRepository.delete(p));
 	}
 	
 	@ApiOperation(value="Atualiza um produto")
