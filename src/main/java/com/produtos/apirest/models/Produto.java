@@ -1,5 +1,7 @@
 package com.produtos.apirest.models;
 
+import com.produtos.apirest.dto.ProdutoDTO;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -29,7 +31,11 @@ public class Produto implements Serializable{
 	
 	@NotNull
 	private BigDecimal valor;
-	
+	public Produto(ProdutoDTO produto) {
+		this.nome = produto.getNome();
+		this.quantidade = produto.getQuantidade();
+		this.valor = produto.getValor();
+	}
 	
 	public long getId() {
 		return id;
