@@ -1,9 +1,11 @@
 package com.produtos.apirest.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.produtos.apirest.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,8 +47,8 @@ public class ProdutoResource {
 	
 	@ApiOperation(value="Salva um produto")
 	@PostMapping("/produto")
-	public Produto salvaProduto(@RequestBody @Valid Produto produto) {
-		return produtoRepository.save(produto);
+	public Produto salvaProduto(@RequestBody @Valid ProdutoDTO produto) {
+		return produtoRepository.save(new Produto(produto));
 	}
 	
 	@ApiOperation(value="Deleta um produto")
@@ -56,9 +58,17 @@ public class ProdutoResource {
 	}
 	
 	@ApiOperation(value="Atualiza um produto")
-	@PutMapping("/produto")
-	public Produto atualizaProduto(@RequestBody @Valid Produto produto) {
-		return produtoRepository.save(produto);
+	@PutMapping("/produto/{id}")
+	public Produto atualizaProduto(@RequestBody @Valid ProdutoDTO produtoDTO, @PathVariable("id") Long id) {
+
+		Optional<Produto> p = this.produtoRepository.findById(id);
+		Produto produto = new Produto(produtoDTO);
+		if (p.isPresent()){
+			produto.setId(p.get().getId());
+			produtoRepository.save(produto);
+			return produto;
+		}
+		return null;
 	}
 	 
 
