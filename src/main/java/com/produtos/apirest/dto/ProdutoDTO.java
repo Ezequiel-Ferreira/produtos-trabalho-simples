@@ -2,6 +2,7 @@ package com.produtos.apirest.dto;
 
 import com.produtos.apirest.models.Produto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -15,7 +16,7 @@ public class ProdutoDTO {
     @NotNull
     private BigDecimal valor;
 
-    public ProdutoDTO(Produto produto) {
+    public ProdutoDTO(@Valid ProdutoDTO produto) {
         this.nome = produto.getNome();
         this.quantidade = produto.getQuantidade();
         this.valor = produto.getValor();

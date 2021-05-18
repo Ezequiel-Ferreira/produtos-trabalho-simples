@@ -36,7 +36,10 @@ public class Produto implements Serializable{
 		this.quantidade = produto.getQuantidade();
 		this.valor = produto.getValor();
 	}
-	
+
+	public Produto() {
+	}
+
 	public long getId() {
 		return id;
 	}

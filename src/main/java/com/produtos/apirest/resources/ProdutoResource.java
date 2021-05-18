@@ -1,6 +1,7 @@
 package com.produtos.apirest.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -57,9 +58,17 @@ public class ProdutoResource {
 	}
 	
 	@ApiOperation(value="Atualiza um produto")
-	@PutMapping("/produto")
-	public Produto atualizaProduto(@RequestBody @Valid Produto produto) {
-		return produtoRepository.save(produto);
+	@PutMapping("/produto/{id}")
+	public Produto atualizaProduto(@RequestBody @Valid ProdutoDTO produtoDTO, @PathVariable("id") Long id) {
+
+		Optional<Produto> p = this.produtoRepository.findById(id);
+		Produto produto = new Produto(produtoDTO);
+		if (p.isPresent()){
+			produto.setId(p.get().getId());
+			produtoRepository.save(produto);
+			return produto;
+		}
+		return null;
 	}
 	 
 
